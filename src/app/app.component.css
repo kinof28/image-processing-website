@@ -1,0 +1,43 @@
+/*canvas {*/
+/*  border: 1px blue dot-dash;*/
+/*}*/
+h1{
+  text-align: center;
+}
+.hidden{
+  display:none;
+}
+.image-box{
+  border: 2px white solid;
+  border-radius: 1rem;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.image-result-box:hover{
+  cursor: default!important;
+}
+.height-500{
+  height: 500px;
+}
+.image-box:hover{
+  cursor: pointer;
+}
+.main{
+  /*margin-left: 1rem;*/
+  /*background-color: dimgrey;*/
+}
+.overlay-text{
+  position: absolute;
+}
+.hint{
+  font-size: xx-small;
+  text-align: center;
+  margin: 0;
+}
+.actions-area{
+  padding: 10px;
+  display: flex;
+  justify-content: space-around;
+}

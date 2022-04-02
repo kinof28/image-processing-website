@@ -1,6 +1,10 @@
-# WebProcessing
+# Image Processing Website
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.0.2.
+
+this is an open source project created by me for fun anyone can copy and use for personal use
+it was created for a university project in basic image processing lecture 
+hope u find it useful 
 
 ## Development server
 
