@@ -18,6 +18,27 @@ h1{
 .image-result-box:hover{
   cursor: default!important;
 }
+.grey-level-div{
+  display: flex;
+  flex-flow: column;
+}
+.grey-level-box{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0.2rem;
+}
+.grey-level-box>button{
+  width: 3rem;
+  height: 2rem;
+  /*background: url("../assets/icons/plus-icon.png");*/
+}
+.icon{
+  height: 1rem;
+}
+.image-box>img{
+  max-width: 700px;
+}
 .height-500{
   height: 500px;
 }
@@ -30,6 +51,7 @@ h1{
 }
 .overlay-text{
   position: absolute;
+  font-size: 1rem;
 }
 .hint{
   font-size: xx-small;
@@ -40,4 +62,16 @@ h1{
   padding: 10px;
   display: flex;
   justify-content: space-around;
+  flex-wrap: wrap;
+}
+.actions-area>button{
+  max-height: 2.5rem;
+}
+@media (max-width: 700px) {
+  .row{
+    flex-direction: column;
+  }
+  .col-6{
+    width: 100%;
+  }
 }
