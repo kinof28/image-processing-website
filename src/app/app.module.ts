@@ -3,11 +3,27 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import {HistogramService} from "./Services/histogram.service";
+import {HistogramService} from "./services/histogram.service";
+import { HeaderComponent } from './components/header/header.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { BasicComponent } from './components/basic/basic.component';
+import { EnhancementComponent } from './components/enhancement/enhancement.component';
+import { CodeBarComponent } from './components/code-bar/code-bar.component';
+import { NotFoundPageComponent } from './components/not-found-page/not-found-page.component';
+import { HistogramComponent } from './components/histogram/histogram.component';
+import { DocumentationComponent } from './components/documentation/documentation.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HeaderComponent,
+    FooterComponent,
+    BasicComponent,
+    EnhancementComponent,
+    CodeBarComponent,
+    NotFoundPageComponent,
+    HistogramComponent,
+    DocumentationComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,62 @@
+<div class="main container-fluid">
+  <div class="row">
+    <h4 class="text-center">
+      Basic image processing operations
+    </h4>
+  </div>
+  <div class="row">
+    <div class="col-6">
+      <p class="hint" *ngIf="image.src;else none">click on image to upload new image</p>
+      <ng-template #none>
+        <p class="hint alert-danger">{{msg}}</p>
+      </ng-template>
+    </div>
+  </div>
+  <div class="row cont">
+    <div class="col-6">
+      <div class="image-box height-500" (click)="imageInput.click()">
+        <input type="file" accept="image/*" name="image" (change)="uploadImage($event)" class="hidden" #imageInput>
+        <img height="500" #image>
+        <h6 class="overlay-text" *ngIf="!image.src">Click here to open a new image</h6>
+      </div>
+      <div class="actions-area" *ngIf="image.src; else beforeUpload">
+        <button class="btn btn-primary" (click)="greyLevel()"> Grey Level</button>
+        <button class="btn btn-primary" (click)="rotateLeft()"> Rotate Left</button>
+        <button class="btn btn-primary" (click)="rotateRight()"> Rotate Right</button>
+        <div class="grey-level-div col-3">
+          <button class="btn btn-primary" (click)="greyLevelPersonalised()"> Grey Level *</button>
+          <div class="grey-level-box">
+            <button [disabled]="greyLevelLabel>=256" (click)="plusLevel()"
+                    class="btn btn-sm btn-light btn-outline-dark"><img class="icon" src="../assets/icons/plus-icon.png">
+            </button>
+            <label>{{greyLevelLabel}}</label>
+            <button [disabled]="greyLevelLabel<=2" (click)="minusLevel()" class="btn btn-sm btn-light btn-outline-dark">
+              <img class="icon" src="../assets/icons/minus-icon.png"></button>
+          </div>
+        </div>
+      </div>
+      <ng-template #beforeUpload>
+        <div class="actions-area">
+          <button class="btn btn-primary" (click)="imageInput.click()"> Upload Image</button>
+          <button class="btn btn-primary" disabled="true" (click)="drawImage()"> Draw New Image</button>
+        </div>
+      </ng-template>
+
+      <ng-template #drawArea>
+
+      </ng-template>
+    </div>
+    <div class="col-6">
+      <canvas class="hidden" #resultImageCanvas></canvas>
+      <div class="image-box image-result-box height-500">
+        <img height="500" #resultImage>
+      </div>
+      <div class="actions-area" *ngIf="resultImage.src">
+        <button class="btn btn-primary" (click)="save()"> Save</button>
+        <div *ngIf="isGreyLevel">
+          <button class="btn btn-primary" (click)="displayHistogram()"> Display Histogram</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
