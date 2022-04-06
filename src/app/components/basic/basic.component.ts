@@ -1,5 +1,6 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {HistogramService} from "../../services/histogram.service";
+import {BasicService} from "../../services/basic.service";
 
 @Component({
   selector: 'app-basic',
@@ -20,7 +21,8 @@ export class BasicComponent{
   canvas!: HTMLCanvasElement;
 
 
-  constructor(private histogramService:HistogramService) {
+  constructor(private histogramService:HistogramService,
+              private basicService:BasicService) {
   }
 
   uploadImage(event: any): void {
@@ -65,19 +67,6 @@ export class BasicComponent{
   //   return this.getMatrixImplementation(2);
   // }
 
-  private getGreyMatrix(): number[][] {
-    this.normaliseData();
-    const data = this.imageData.data;
-    let matrix: number[][] = [];
-    for (let i = 0; i < this.canvas.height; i++) {
-      matrix[i] = [];
-      for (let j = 0; j < this.canvas.width; j++) {
-        matrix[i][j] = (data[(i * this.canvas.width * 4) + j * 4] + data[(i * this.canvas.width * 4) + j * 4 + 1] + data[(i * this.canvas.width * 4) + j * 4 + 2]) / 3;
-      }
-    }
-    return matrix;
-  }
-
   // private getMatrixImplementation(color: number): number[][] {
   //   //color =0 =>red
   //   //color =1 =>green
@@ -95,22 +84,15 @@ export class BasicComponent{
   // }
 
   rotateLeft(): void {
-    // this.context.putImageData(this.imageData, 0, 0);
     this.canvas.width = 0;
     this.canvas.height = 0;
     this.context = <CanvasRenderingContext2D>this.canvas.getContext('2d');
     this.canvas.height = this.imageResult.nativeElement.naturalHeight;
     this.canvas.width = this.imageResult.nativeElement.naturalWidth;
-    // this.canvas.width = this.imageResult.nativeElement.naturalHeight;
-    // this.canvas.height = this.imageResult.nativeElement.naturalWidth;
-    // this.context.drawImage(this.imageResult.nativeElement, 0, 0);
-    // this.imageData = this.context.getImageData(0, 0, this.canvas.width, this.canvas.height);
-    // this.imageResult.nativeElement.src = this.canvas.toDataURL();
     this.context.imageSmoothingEnabled=false;
     this.context.save();
     this.context.translate(this.canvas.width / 2, this.canvas.height / 2);
     this.context.rotate(-Math.PI / 2);
-    // this.context.drawImage(this.imageResult.nativeElement, -(this.canvas.width / 2), -(this.canvas.height / 2));
     this.context.drawImage(this.imageResult.nativeElement, -(this.canvas.width / 2), -(this.canvas.height / 2));
     this.context.restore();
     this.imageResult.nativeElement.src = this.canvas.toDataURL();
@@ -120,7 +102,6 @@ export class BasicComponent{
     this.context.save();
     this.context.translate(this.canvas.width / 2, this.canvas.height / 2);
     this.context.rotate(Math.PI / 2);
-    // this.context.drawImage(this.imageResult.nativeElement, -(this.canvas.width / 2), -(this.canvas.height / 2));
     this.context.drawImage(this.imageResult.nativeElement, -(this.canvas.width / 2), -(this.canvas.height / 2));
     this.context.restore();
     this.imageResult.nativeElement.src = this.canvas.toDataURL();
@@ -174,7 +155,8 @@ export class BasicComponent{
   }
 
   displayHistogram(): void {
-    this.histogramService.calculateHistogram(this.getGreyMatrix());
+    this.normaliseData();
+    this.histogramService.calculateHistogram(this.basicService.getGreyMatrix(this.imageData.data,this.canvas.height,this.canvas.width));
   }
 
   save(): void {
