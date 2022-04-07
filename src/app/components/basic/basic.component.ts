@@ -1,6 +1,7 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {HistogramService} from "../../services/histogram.service";
 import {BasicService} from "../../services/basic.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-basic',
@@ -22,7 +23,8 @@ export class BasicComponent{
 
 
   constructor(private histogramService:HistogramService,
-              private basicService:BasicService) {
+              private basicService:BasicService,
+              private router:Router) {
   }
 
   uploadImage(event: any): void {
@@ -155,8 +157,9 @@ export class BasicComponent{
   }
 
   displayHistogram(): void {
-    this.normaliseData();
+    // this.normaliseData();
     this.histogramService.calculateHistogram(this.basicService.getGreyMatrix(this.imageData.data,this.canvas.height,this.canvas.width));
+    this.router.navigate(["/histogram"]);
   }
 
   save(): void {

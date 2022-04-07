@@ -48,7 +48,7 @@ export class BarCodeService {
   }
 
   getDigitFromBinaryEncoding(encoding: String): string {
-    let digit = "";
+    let digit: string;
       switch (encoding) {
         //-------------L-CODE
         case "0001101":

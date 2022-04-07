@@ -20,9 +20,11 @@
         <h6 class="overlay-text" *ngIf="!image.src">Click here to open a new image</h6>
       </div>
       <div class="actions-area" *ngIf="image.src; else beforeUpload">
-        <button class="btn btn-primary" (click)="greyLevel()"> Grey Level</button>
         <button class="btn btn-primary" (click)="rotateLeft()"> Rotate Left</button>
         <button class="btn btn-primary" (click)="rotateRight()"> Rotate Right</button>
+        <button class="btn btn-primary" (click)="rotateLeft()" disabled> Zoom In</button>
+        <button class="btn btn-primary" (click)="rotateLeft()" disabled> Zoom Out</button>
+        <button class="btn btn-primary" (click)="greyLevel()"> Grey Level</button>
         <div class="grey-level-div col-3">
           <button class="btn btn-primary" (click)="greyLevelPersonalised()"> Grey Level *</button>
           <div class="grey-level-box">

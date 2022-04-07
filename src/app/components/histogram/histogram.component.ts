@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {HistogramService} from "../../services/histogram.service";
 
 @Component({
   selector: 'app-histogram',
@@ -7,9 +8,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HistogramComponent implements OnInit {
 
-  constructor() { }
+  barChartLabels: number[] = [];
+  barChartData: [{ data: number[]; label: string }] = [{data: [], label: ""}];
+
+  constructor(private histogramService: HistogramService) {
+  }
+
+  barChartOptions = [{
+    scaleShowVerticalLines: true,
+    responsive: true
+  }];
+  public barChartLegend = true;
 
   ngOnInit(): void {
+    this.barChartLabels = this.histogramService.getHistogramBarsLabels();
+    this.barChartData = [
+      {data: this.histogramService.histogram, label: 'pixels'}
+      // {data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B'}
+    ];
   }
+
 
 }

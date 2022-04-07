@@ -12,6 +12,7 @@ import { CodeBarComponent } from './components/code-bar/code-bar.component';
 import { NotFoundPageComponent } from './components/not-found-page/not-found-page.component';
 import { HistogramComponent } from './components/histogram/histogram.component';
 import { DocumentationComponent } from './components/documentation/documentation.component';
+import {NgChartsModule} from "ng2-charts";
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { DocumentationComponent } from './components/documentation/documentation
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    NgChartsModule
   ],
   providers: [HistogramService],
   bootstrap: [AppComponent]
