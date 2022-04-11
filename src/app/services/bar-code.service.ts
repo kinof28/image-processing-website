@@ -16,11 +16,13 @@ export class BarCodeService {
 
   getBarCodeFromGreyLevelMatrix(matrix: number[][]): string {
     this.utils.convertMatrixToBinary(matrix);
+    // console.log(matrix[30]);
     let pattern: number[] = this.getPattern(matrix[30]);
     return this.getBarCodeFromPattern(pattern);
   }
 
   getBarCodeFromPattern(pattern: number[]): string {
+    console.log(pattern);
     let barCode: string = "";
     let encoding = "";
     let iteration = 1;
@@ -48,6 +50,7 @@ export class BarCodeService {
   }
 
   getDigitFromBinaryEncoding(encoding: String): string {
+    console.log(encoding);
     let digit: string;
       switch (encoding) {
         //-------------L-CODE
@@ -170,7 +173,7 @@ export class BarCodeService {
     for (let i = 0; i < areasLengths.length; i++) {
       rounds = Math.floor(areasLengths[i] / (areaWidth - (areaWidth * 0.2)));
       for (let j = 0; j < rounds; j++) {
-        pattern.push((i + 1) % 2);
+        pattern.push((i +1) % 2);
       }
     }
     return pattern;
@@ -178,24 +181,37 @@ export class BarCodeService {
 
   private getAreaWidth(imageRow: number[]): number {
     let areaWidth = 0;
-    let finalAreaWidth = 0;
-    let currentValue = 1;
-    let init = 0;
-    let isCalculating = false;
-    for (let i = 0; (i < imageRow.length && init < 4); i++) {
-      if (currentValue != imageRow[i]) {
-        finalAreaWidth = Math.max(finalAreaWidth, areaWidth);
-        areaWidth = 0;
-        isCalculating = true;
-        areaWidth++;
-        currentValue = imageRow[i];
-        init++;
-        continue;
-      }
-      if (isCalculating) {
-        areaWidth++;
+    // let finalAreaWidth = 0;
+    // let currentValue = 1;
+    // let init = 0;
+    // let isCalculating = false;
+    // for (let i = 0; (i < imageRow.length && init < 4); i++) {
+    //   if (currentValue != imageRow[i]) {
+    //     finalAreaWidth = Math.max(finalAreaWidth, areaWidth);
+    //     areaWidth = 0;
+    //     isCalculating = true;
+    //     areaWidth++;
+    //     currentValue = imageRow[i];
+    //     init++;
+    //     continue;
+    //   }
+    //   if (isCalculating) {
+    //     areaWidth++;
+    //   }
+    // }
+    // return finalAreaWidth;
+    let startingIndex=0;
+    for (let i = 0; i < imageRow.length; i++) {
+      if(imageRow[i]===0){
+        startingIndex=i;
+        break;
       }
     }
-    return finalAreaWidth;
+    for (let i = startingIndex; i < imageRow.length; i++) {
+      if(imageRow[i]===1)break;
+      areaWidth++;
+    }
+    console.log(areaWidth);
+    return areaWidth;
   }
 }

@@ -43,30 +43,30 @@ export class HistogramComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.canvas=<HTMLCanvasElement>this.canvasRef.nativeElement;
-    this.context=<CanvasRenderingContext2D>this.canvas.getContext('2d');
-    this.imageData=this.context.getImageData(0,0,this.canvas.width,this.canvas.height);
-
-    window.requestAnimationFrame(()=>{
-      this.draw();
-    });
+    // this.canvas=<HTMLCanvasElement>this.canvasRef.nativeElement;
+    // this.context=<CanvasRenderingContext2D>this.canvas.getContext('2d');
+    // this.imageData=this.context.getImageData(0,0,this.canvas.width,this.canvas.height);
+    //
+    // window.requestAnimationFrame(()=>{
+    //   this.draw();
+    // });
   }
 
 
 
-  private draw():void{
-    this.canvas.width = window.innerWidth;
-    this.canvas.height = window.innerHeight;
-    this.context.translate( window.innerWidth / 2, window.innerHeight / 2 )
-    this.context.scale(this.cameraZoom, this.cameraZoom)
-    this.context.translate( -window.innerWidth / 2 + this.cameraOffset.x, -window.innerHeight / 2 + this.cameraOffset.y )
-    this.context.clearRect(0,0, window.innerWidth, window.innerHeight);
-    //this.context.putImageData(this.imageData,0,0,0,0,window.innerWidth / 2, window.innerHeight / 2);
-    window.requestAnimationFrame(()=>{
-      this.draw();
-    });
-
-  }
+  // private draw():void{
+  //   this.canvas.width = window.innerWidth;
+  //   this.canvas.height = window.innerHeight;
+  //   this.context.translate( window.innerWidth / 2, window.innerHeight / 2 )
+  //   this.context.scale(this.cameraZoom, this.cameraZoom)
+  //   this.context.translate( -window.innerWidth / 2 + this.cameraOffset.x, -window.innerHeight / 2 + this.cameraOffset.y )
+  //   this.context.clearRect(0,0, window.innerWidth, window.innerHeight);
+  //   this.context.putImageData(this.imageData,0,0);
+  //   window.requestAnimationFrame(()=>{
+  //     this.draw();
+  //   });
+  //
+  // }
 
 
   onZoom(event: WheelEvent) {
