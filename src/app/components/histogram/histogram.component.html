@@ -4,13 +4,10 @@
           [labels]="barChartLabels"
           [options]="barChartOptions"
           [legend]="barChartLegend"
-          (mousedown)="onPointerDown()"
-          (mouseup)="onPointerUp()"
-          (touchstart)="onTouchStart()"
-          (touchend)="onTouchEnd()"
-          (mousemove)="onPointerMove()"
-          (touchmove)="onTouchMove()"
-          (wheel)="adjustZoom()"
+          (mousedown)="onPointerDown($event)"
+          (mouseup)="onPointerUp($event)"
+          (mousemove)="onPointerMove($event)"
+          (wheel)="onZoom($event)"
           #canvas>
   </canvas>
 </div>
