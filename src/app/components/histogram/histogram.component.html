@@ -3,7 +3,14 @@
           [datasets]="barChartData"
           [labels]="barChartLabels"
           [options]="barChartOptions"
-          [legend]="barChartLegend">
-    <!--            [chartType]="barChartType">-->
+          [legend]="barChartLegend"
+          (mousedown)="onPointerDown()"
+          (mouseup)="onPointerUp()"
+          (touchstart)="onTouchStart()"
+          (touchend)="onTouchEnd()"
+          (mousemove)="onPointerMove()"
+          (touchmove)="onTouchMove()"
+          (wheel)="adjustZoom()"
+          #canvas>
   </canvas>
 </div>
