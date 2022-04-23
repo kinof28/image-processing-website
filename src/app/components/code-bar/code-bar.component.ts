@@ -9,7 +9,7 @@ import {BarCodeService} from "../../services/bar-code.service";
 export class CodeBarComponent implements OnInit {
 
   @ViewChild('image') imageInput!: ElementRef;
-  result:string="";
+  result: string = "";
   msg: string = "";
   context!: CanvasRenderingContext2D;
   canvas!: HTMLCanvasElement;
@@ -17,7 +17,7 @@ export class CodeBarComponent implements OnInit {
   @ViewChild('resultImage', {static: false}) imageResult!: ElementRef;
   @ViewChild('resultImageCanvas') resultImageCanvas!: ElementRef;
 
-  constructor(private barCodeService:BarCodeService) {
+  constructor(private barCodeService: BarCodeService) {
   }
 
   uploadImage(event: any): void {
@@ -36,15 +36,15 @@ export class CodeBarComponent implements OnInit {
     reader.onload = (_event) => {
       this.imageInput.nativeElement.src = <string>reader.result;
     };
-    this.msg="";
-    reader.onloadend=(event)=>{
+    this.msg = "";
+    reader.onloadend = (event) => {
       this.canvas = this.resultImageCanvas.nativeElement;
       this.canvas.height = this.imageInput.nativeElement.naturalHeight;
       this.canvas.width = this.imageInput.nativeElement.naturalWidth;
       this.context = <CanvasRenderingContext2D>this.canvas.getContext('2d');
       this.context.drawImage(this.imageInput.nativeElement, 0, 0);
       this.imageData = this.context.getImageData(0, 0, this.canvas.width, this.canvas.height);
-      this.result=this.barCodeService.getBarCode(this.imageData.data,this.canvas.height,this.canvas.width);
+      this.result = this.barCodeService.getBarCode(this.imageData.data, this.canvas.height, this.canvas.width);
     };
   }
 

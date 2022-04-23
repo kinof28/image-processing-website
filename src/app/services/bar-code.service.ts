@@ -7,7 +7,7 @@ import {UtilsService} from "./utils.service";
 })
 export class BarCodeService {
 
-  private firstDigitEncoding:String="";
+  private firstDigitEncoding: String = "";
 
   constructor(private basicService: BasicService, private utils: UtilsService) {
   }
@@ -23,30 +23,30 @@ export class BarCodeService {
   }
 
   getBarCodeFromPattern(pattern: number[]): string {
-    // console.log(pattern);
     let barCode: string = "";
-    this.firstDigitEncoding="";
+    this.firstDigitEncoding = "";
     if (!this.checkPattern(pattern)) return "can not read barcode from this image";
     else {
-      pattern=this.cropGuards(pattern);
-      // console.log(pattern);
+      pattern = this.cropGuards(pattern);
       for (let i = 0; i < 12; i++) {
-        barCode+=this.getDigitFromBinaryEncoding(pattern.slice(i*7,(i*7)+7).join(''));
+        barCode += this.getDigitFromBinaryEncoding(pattern.slice(i * 7, (i * 7) + 7).join(''));
       }
-      return this.getFirstDigit()+barCode;
+      return this.getFirstDigit() + barCode;
     }
   }
-  private cropGuards(pattern:number[]):number[]{
-    let croppedPattern:number[];
-    croppedPattern=pattern.slice(3,92);
-    croppedPattern=croppedPattern.slice(0,Math.floor(croppedPattern.length/2)-2).concat(croppedPattern.slice(Math.floor(croppedPattern.length/2)+3));
+
+  private cropGuards(pattern: number[]): number[] {
+    let croppedPattern: number[];
+    croppedPattern = pattern.slice(3, 92);
+    croppedPattern = croppedPattern.slice(0, Math.floor(croppedPattern.length / 2) - 2).concat(croppedPattern.slice(Math.floor(croppedPattern.length / 2) + 3));
     return croppedPattern;
   }
+
   private checkPattern(pattern: number[]): boolean {
     let firstGuard = (pattern[0] == 1 && pattern[1] == 0 && pattern[2] == 1);
     let lastGuard = (pattern[pattern.length - 1] == 1 && pattern[pattern.length - 2] == 0 && pattern[pattern.length - 3] == 1);
     let middleGuard = (pattern[44] == 1 && pattern[45] == 0 && pattern[46] == 1 && pattern[47] == 0 && pattern[48] == 1);
-    console.log("guard check : "+(firstGuard && middleGuard && lastGuard));
+    console.log("guard check : " + (firstGuard && middleGuard && lastGuard));
     return firstGuard && middleGuard && lastGuard;
 
   }
@@ -58,84 +58,84 @@ export class BarCodeService {
       //-------------L-CODE
       case "0001101":
         digit = "0";
-        this.firstDigitEncoding+="L";
+        this.firstDigitEncoding += "L";
         break;
       case "0011001":
         digit = "1";
-        this.firstDigitEncoding+="L";
+        this.firstDigitEncoding += "L";
         break;
       case "0010011":
         digit = "2";
-        this.firstDigitEncoding+="L";
+        this.firstDigitEncoding += "L";
         break;
       case "0111101":
         digit = "3";
-        this.firstDigitEncoding+="L";
+        this.firstDigitEncoding += "L";
         break;
       case "0100011":
         digit = "4";
-        this.firstDigitEncoding+="L";
+        this.firstDigitEncoding += "L";
         break;
       case "0110001":
         digit = "5";
-        this.firstDigitEncoding+="L";
+        this.firstDigitEncoding += "L";
         break;
       case "0101111":
         digit = "6";
-        this.firstDigitEncoding+="L";
+        this.firstDigitEncoding += "L";
         break;
       case "0111011":
         digit = "7";
-        this.firstDigitEncoding+="L";
+        this.firstDigitEncoding += "L";
         break;
       case "0110111":
         digit = "8";
-        this.firstDigitEncoding+="L";
+        this.firstDigitEncoding += "L";
         break;
       case "0001011":
         digit = "9";
-        this.firstDigitEncoding+="L";
+        this.firstDigitEncoding += "L";
         break;
       //-------------------G-CODE
       case "0100111":
         digit = "0";
-        this.firstDigitEncoding+="G";
+        this.firstDigitEncoding += "G";
         break;
       case "0110011":
         digit = "1";
-        this.firstDigitEncoding+="G";
+        this.firstDigitEncoding += "G";
         break;
       case "0011011":
         digit = "2";
-        this.firstDigitEncoding+="G";
+        this.firstDigitEncoding += "G";
         break;
       case "0100001":
         digit = "3";
-        this.firstDigitEncoding+="G";
+        this.firstDigitEncoding += "G";
         break;
       case "0011101":
         digit = "4";
-        this.firstDigitEncoding+="G";
+        this.firstDigitEncoding += "G";
         break;
       case "0111001":
         digit = "5";
-        this.firstDigitEncoding+="G";
+        this.firstDigitEncoding += "G";
         break;
       case "0000101":
         digit = "6";
-        this.firstDigitEncoding+="G";
+        this.firstDigitEncoding += "G";
         break;
       case "0010001":
         digit = "7";
-        this.firstDigitEncoding+="G";
+        this.firstDigitEncoding += "G";
         break;
       case "0001001":
         digit = "8";
-        this.firstDigitEncoding+="G";
+        this.firstDigitEncoding += "G";
         break;
       case "0010111":
         digit = "9";
-        this.firstDigitEncoding+="G";
+        this.firstDigitEncoding += "G";
         break;
       //-------------R-CODE
       case "1110010":
@@ -174,21 +174,34 @@ export class BarCodeService {
     }
     return digit;
   }
-  private getFirstDigit():string{
-    switch (this.firstDigitEncoding){
-      case "LLLLLL": return "0";
-      case "LLGLGG": return "1";
-      case "LLGGLG": return "2";
-      case "LLGGGL": return "3";
-      case "LGLLGG": return "4";
-      case "LGGLLG": return "5";
-      case "LGGGLL": return "6";
-      case "LGLGLG": return "7";
-      case "LGLGGL": return "8";
-      case "LGGLGL": return "9";
-      default:return "";
+
+  private getFirstDigit(): string {
+    switch (this.firstDigitEncoding) {
+      case "LLLLLL":
+        return "0";
+      case "LLGLGG":
+        return "1";
+      case "LLGGLG":
+        return "2";
+      case "LLGGGL":
+        return "3";
+      case "LGLLGG":
+        return "4";
+      case "LGGLLG":
+        return "5";
+      case "LGGGLL":
+        return "6";
+      case "LGLGLG":
+        return "7";
+      case "LGLGGL":
+        return "8";
+      case "LGGLGL":
+        return "9";
+      default:
+        return "";
     }
   }
+
   private getPattern(imageRow: number[]): number[] {
     let pattern: number[] = [];
     imageRow = this.normaliseImageRow(imageRow);
@@ -213,7 +226,6 @@ export class BarCodeService {
       return -1;
     }
   }
-
 
   private normaliseImageRow(imageRow: number[]): number[] {
     let firstIndex = 0;
