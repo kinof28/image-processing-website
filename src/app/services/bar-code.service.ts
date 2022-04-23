@@ -7,6 +7,8 @@ import {UtilsService} from "./utils.service";
 })
 export class BarCodeService {
 
+  private firstDigitEncoding:String="";
+
   constructor(private basicService: BasicService, private utils: UtilsService) {
   }
 
@@ -21,16 +23,17 @@ export class BarCodeService {
   }
 
   getBarCodeFromPattern(pattern: number[]): string {
-    console.log(pattern);
+    // console.log(pattern);
     let barCode: string = "";
-    if (this.checkPattern(pattern)) return "can not read barcode from this image";
+    this.firstDigitEncoding="";
+    if (!this.checkPattern(pattern)) return "can not read barcode from this image";
     else {
       pattern=this.cropGuards(pattern);
-      console.log(pattern);
+      // console.log(pattern);
       for (let i = 0; i < 12; i++) {
         barCode+=this.getDigitFromBinaryEncoding(pattern.slice(i*7,(i*7)+7).join(''));
       }
-      return barCode;
+      return this.getFirstDigit()+barCode;
     }
   }
   private cropGuards(pattern:number[]):number[]{
@@ -40,79 +43,99 @@ export class BarCodeService {
     return croppedPattern;
   }
   private checkPattern(pattern: number[]): boolean {
-    let firstGuard = (pattern[0] == 0 && pattern[1] == 1 && pattern[2] == 0);
-    let lastGuard = (pattern[pattern.length - 1] == 0 && pattern[pattern.length - 2] == 1 && pattern[pattern.length - 3] == 0);
-    let middleGuard = (pattern[44] == 0 && pattern[45] == 1 && pattern[46] == 0 && pattern[47] == 1 && pattern[48] == 0);
-    console.log("guard check : "+firstGuard && middleGuard && lastGuard);
+    let firstGuard = (pattern[0] == 1 && pattern[1] == 0 && pattern[2] == 1);
+    let lastGuard = (pattern[pattern.length - 1] == 1 && pattern[pattern.length - 2] == 0 && pattern[pattern.length - 3] == 1);
+    let middleGuard = (pattern[44] == 1 && pattern[45] == 0 && pattern[46] == 1 && pattern[47] == 0 && pattern[48] == 1);
+    console.log("guard check : "+(firstGuard && middleGuard && lastGuard));
     return firstGuard && middleGuard && lastGuard;
 
   }
 
-  getDigitFromBinaryEncoding(encoding: String): string {
+  private getDigitFromBinaryEncoding(encoding: String): string {
     console.log(encoding);
     let digit: string;
     switch (encoding) {
       //-------------L-CODE
       case "0001101":
         digit = "0";
+        this.firstDigitEncoding+="L";
         break;
       case "0011001":
         digit = "1";
+        this.firstDigitEncoding+="L";
         break;
       case "0010011":
         digit = "2";
+        this.firstDigitEncoding+="L";
         break;
       case "0111101":
         digit = "3";
+        this.firstDigitEncoding+="L";
         break;
       case "0100011":
         digit = "4";
+        this.firstDigitEncoding+="L";
         break;
       case "0110001":
         digit = "5";
+        this.firstDigitEncoding+="L";
         break;
       case "0101111":
         digit = "6";
+        this.firstDigitEncoding+="L";
         break;
       case "0111011":
         digit = "7";
+        this.firstDigitEncoding+="L";
         break;
       case "0110111":
         digit = "8";
+        this.firstDigitEncoding+="L";
         break;
       case "0001011":
         digit = "9";
+        this.firstDigitEncoding+="L";
         break;
       //-------------------G-CODE
       case "0100111":
         digit = "0";
+        this.firstDigitEncoding+="G";
         break;
       case "0110011":
         digit = "1";
+        this.firstDigitEncoding+="G";
         break;
       case "0011011":
         digit = "2";
+        this.firstDigitEncoding+="G";
         break;
       case "0100001":
         digit = "3";
+        this.firstDigitEncoding+="G";
         break;
       case "0011101":
         digit = "4";
+        this.firstDigitEncoding+="G";
         break;
       case "0111001":
         digit = "5";
+        this.firstDigitEncoding+="G";
         break;
       case "0000101":
         digit = "6";
+        this.firstDigitEncoding+="G";
         break;
       case "0010001":
         digit = "7";
+        this.firstDigitEncoding+="G";
         break;
       case "0001001":
         digit = "8";
+        this.firstDigitEncoding+="G";
         break;
       case "0010111":
         digit = "9";
+        this.firstDigitEncoding+="G";
         break;
       //-------------R-CODE
       case "1110010":
@@ -151,11 +174,24 @@ export class BarCodeService {
     }
     return digit;
   }
-
+  private getFirstDigit():string{
+    switch (this.firstDigitEncoding){
+      case "LLLLLL": return "0";
+      case "LLGLGG": return "1";
+      case "LLGGLG": return "2";
+      case "LLGGGL": return "3";
+      case "LGLLGG": return "4";
+      case "LGGLLG": return "5";
+      case "LGGGLL": return "6";
+      case "LGLGLG": return "7";
+      case "LGLGGL": return "8";
+      case "LGGLGL": return "9";
+      default:return "";
+    }
+  }
   private getPattern(imageRow: number[]): number[] {
     let pattern: number[] = [];
     imageRow = this.normaliseImageRow(imageRow);
-    // console.log(imageRow);
     let areaWidth: number = imageRow.length / 95;
     for (let i = 0; i < 95; i++) {
       pattern[i] = this.getAreaValue(imageRow.slice(i * areaWidth, (i * areaWidth) + areaWidth));
@@ -170,7 +206,6 @@ export class BarCodeService {
       else if (area[i] == 1) whiteValue++;
       else console.log("something is wrong with this pixel its value is : " + area[i]);
     }
-
     if (blackValue > whiteValue) return 1;
     else if (whiteValue > blackValue) return 0;
     else {
@@ -191,25 +226,6 @@ export class BarCodeService {
       if (imageRow[lastIndex] == 0) break;
       lastIndex--;
     }
-    // console.log(firstIndex);
-    // console.log(lastIndex);
     return imageRow.slice(firstIndex, lastIndex + 1);
   }
-  //
-  // private getAreaWidth(imageRow: number[]): number {
-  //   let areaWidth = 0;
-  //   let startingIndex = 0;
-  //   for (let i = 0; i < imageRow.length; i++) {
-  //     if (imageRow[i] === 0) {
-  //       startingIndex = i;
-  //       break;
-  //     }
-  //   }
-  //   for (let i = startingIndex; i < imageRow.length; i++) {
-  //     if (imageRow[i] === 1) break;
-  //     areaWidth++;
-  //   }
-  //   console.log(areaWidth);
-  //   return areaWidth;
-  // }
 }
