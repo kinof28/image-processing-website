@@ -18,7 +18,7 @@ export class BarCodeService {
 
   getBarCodeFromGreyLevelMatrix(matrix: number[][]): string {
     this.utils.convertMatrixToBinary(matrix);
-    let pattern: number[] = this.getPattern(matrix[30]);
+    let pattern: number[] = this.getPattern(matrix[Math.floor(matrix.length*0.4)]);
     return this.getBarCodeFromPattern(pattern);
   }
 
