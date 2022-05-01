@@ -15,8 +15,7 @@ export class BasicComponent {
     msg: string = "";
     greyLevelLabel: number = 256;
     // drawMode: boolean = false;
-    isGreyLevel: boolean = false;
-    @ViewChild('resultImage', {static: false}) imageResult!: ElementRef;
+    @ViewChild('resultImage') imageResult!: ElementRef;
     @ViewChild('resultImageCanvas') resultImageCanvas!: ElementRef;
     context!: CanvasRenderingContext2D;
     canvas!: HTMLCanvasElement;
@@ -69,10 +68,11 @@ export class BasicComponent {
         this.resultImageMatrix = this.basicService.rotateMatrixToRight(this.resultImageMatrix);
         this.displayMatrix();
     }
-    private rotateCanvas():void{
+
+    private rotateCanvas(): void {
         this.canvas.width = this.resultImageMatrix.length;
         this.canvas.height = this.resultImageMatrix[0].length;
-        this.context.fillRect(0,0,this.canvas.width,this.canvas.height);
+        this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
         this.imageData = this.context.getImageData(0, 0, this.canvas.width, this.canvas.height);
     }
 
@@ -85,17 +85,20 @@ export class BasicComponent {
         this.resultImageMatrix = this.basicService.flipMatrixVertically(this.resultImageMatrix);
         this.displayMatrix();
     }
-    zoomIn():void{
-        this.resultImageMatrix=this.basicService.zoomInMatrix(this.resultImageMatrix);
+
+    zoomIn(): void {
+        this.resultImageMatrix = this.basicService.zoomInMatrix(this.resultImageMatrix);
         this.imageData = this.context.getImageData(0, 0, this.resultImageMatrix[0].length, this.resultImageMatrix.length);
         this.displayMatrix();
     }
-    zoomOut():void{
-        this.resultImageMatrix=this.basicService.zoomOutOfMatrix(this.resultImageMatrix);
-        this.context.fillRect(0,0,this.canvas.width,this.canvas.height);
+
+    zoomOut(): void {
+        this.resultImageMatrix = this.basicService.zoomOutOfMatrix(this.resultImageMatrix);
+        this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
         this.imageData = this.context.getImageData(0, 0, this.resultImageMatrix[0].length, this.resultImageMatrix.length);
         this.displayMatrix();
     }
+
     private displayMatrix(): void {
         let data = this.imageData.data;
         for (let i = 0; i < this.resultImageMatrix.length; i++) {
@@ -112,7 +115,6 @@ export class BasicComponent {
 
     private greyLevelImplementation(level: number): void {
         if (this.imageResult.nativeElement.src) this.normaliseData();
-        this.isGreyLevel = true;
         let data = this.imageData.data;
         let avg: number;
         for (let i = 0; i < data.length; i += 4) {
