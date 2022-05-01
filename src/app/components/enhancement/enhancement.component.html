@@ -23,12 +23,16 @@
             <div class="actions-area" *ngIf="image.src; else beforeUpload">
                 <div>
                     <button class="btn btn-primary" (click)="createSaltAndPepperNoise()"> Create Salt & Pepper Noise
-                    </button><br>
+                    </button>
+                    <br>
                     <label for="strength"> Strength : </label>
                     <input id="strength" type="number" value="1" step="5" min="1" style="width:5rem;" #strength>
                 </div>
-                <button class="btn btn-primary" (click)="reduceSaltAndPepperNoise()"> Reduce Salt & Pepper Noise
-                </button>
+                <div class="filters-area bg-primary">
+                    <h6>Reduce Salt & Pepper Noise</h6>
+                    <button class="btn btn-info" (click)="applyAverageFilter()"> Average Filter</button>
+                    <button class="btn btn-info" (click)="applyMedianFilter()"> Median Filter</button>
+                </div>
                 <!--        <button class="btn btn-primary" (click)="rotateRight()"> Rotate Right</button>-->
             </div>
             <ng-template #beforeUpload>

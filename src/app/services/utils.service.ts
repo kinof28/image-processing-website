@@ -13,4 +13,24 @@ export class UtilsService {
       }
     }
   }
+  sortArray(vector:number[]):void{
+    let temp:number;
+    for (let i = 0; i < vector.length-1; i++) {
+      for (let j = 0; j < vector.length-1; j++) {
+        if(vector[j]>vector[j+1]){
+          temp=vector[j];
+          vector[j]=vector[j+1];
+          vector[j+1]=temp;
+        }
+      }
+    }
+  }
+  gatArrayAverage(vector:number[]):number{
+    let average=0;
+    for (let i = 0; i < vector.length; i++) {
+      average+=vector[i];
+    }
+    average/=vector.length;
+    return average;
+  }
 }

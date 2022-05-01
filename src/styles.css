@@ -7,3 +7,6 @@ body{
   background-color: rgba(0,0,0,70%)!important;
   color:white!important;
 }
+img {
+  border-radius: 1rem;
+}

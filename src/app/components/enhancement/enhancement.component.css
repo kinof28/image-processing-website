@@ -61,6 +61,13 @@
 .actions-area>button{
   max-height: 2.5rem;
 }
+.filters-area{
+  text-align: center;
+  padding-top: 10px;
+}
+.filters-area>button{
+  margin: 0px 10px 10px 10px;
+}
 @media (max-width: 700px) {
   .row{
     flex-direction: column;
