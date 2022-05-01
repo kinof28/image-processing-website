@@ -1,44 +1,51 @@
 <div class="main container-fluid">
-  <div class="row">
-    <h4 class="text-center">
-      Image Enhancement Operations
-    </h4>
-  </div>
-  <div class="row">
-    <div class="col-6">
-      <p class="hint" *ngIf="image.src;else none">click on image to upload new image</p>
-      <ng-template #none>
-        <p class="hint alert-danger">{{msg}}</p>
-      </ng-template>
+    <div class="row">
+        <h4 class="text-center">
+            Image Enhancement Operations
+        </h4>
     </div>
-  </div>
-  <div class="row cont">
-    <div class="col-6">
-      <div class="image-box height-500" (click)="imageInput.click()">
-        <input type="file" accept="image/*" name="image" (change)="uploadImage($event)" class="hidden" #imageInput>
-        <img height="500" #image>
-        <h6 class="overlay-text" *ngIf="!image.src">Click here to open a new image</h6>
-      </div>
-      <div class="actions-area" *ngIf="image.src; else beforeUpload">
-        <button class="btn btn-primary" (click)="createSaltAndPepperNoise()"> Create Salt & Pepper Noise</button>
-        <button class="btn btn-primary" (click)="reduceSaltAndPepperNoise()"> Reduce Salt & Pepper Noise</button>
-<!--        <button class="btn btn-primary" (click)="rotateRight()"> Rotate Right</button>-->
-      </div>
-      <ng-template #beforeUpload>
-        <div class="actions-area">
-          <button class="btn btn-primary" (click)="imageInput.click()"> Upload Image</button>
+    <div class="row">
+        <div class="col-6">
+            <p class="hint" *ngIf="image.src;else none">click on image to upload new image</p>
+            <ng-template #none>
+                <p class="hint alert-danger">{{msg}}</p>
+            </ng-template>
         </div>
-      </ng-template>
+    </div>
+    <div class="row cont">
+        <div class="col-6">
+            <div class="image-box height-500" (click)="imageInput.click()">
+                <input type="file" accept="image/*" name="image" (change)="uploadImage($event)" class="hidden"
+                       #imageInput>
+                <img height="500" #image>
+                <h6 class="overlay-text" *ngIf="!image.src">Click here to open a new image</h6>
+            </div>
+            <div class="actions-area" *ngIf="image.src; else beforeUpload">
+                <div>
+                    <button class="btn btn-primary" (click)="createSaltAndPepperNoise()"> Create Salt & Pepper Noise
+                    </button><br>
+                    <label for="strength"> Strength : </label>
+                    <input id="strength" type="number" value="1" step="5" min="1" style="width:5rem;" #strength>
+                </div>
+                <button class="btn btn-primary" (click)="reduceSaltAndPepperNoise()"> Reduce Salt & Pepper Noise
+                </button>
+                <!--        <button class="btn btn-primary" (click)="rotateRight()"> Rotate Right</button>-->
+            </div>
+            <ng-template #beforeUpload>
+                <div class="actions-area">
+                    <button class="btn btn-primary" (click)="imageInput.click()"> Upload Image</button>
+                </div>
+            </ng-template>
 
+        </div>
+        <div class="col-6">
+            <canvas class="hidden" #resultImageCanvas></canvas>
+            <div class="image-box image-result-box height-500">
+                <img height="500" #resultImage>
+            </div>
+            <div class="actions-area" *ngIf="resultImage.src">
+                <button class="btn btn-primary" (click)="save()"> Save</button>
+            </div>
+        </div>
     </div>
-    <div class="col-6">
-      <canvas class="hidden" #resultImageCanvas></canvas>
-      <div class="image-box image-result-box height-500">
-        <img height="500" #resultImage>
-      </div>
-      <div class="actions-area" *ngIf="resultImage.src">
-        <button class="btn btn-primary" (click)="save()"> Save</button>
-      </div>
-    </div>
-  </div>
 </div>

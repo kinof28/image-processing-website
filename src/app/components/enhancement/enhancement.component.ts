@@ -1,5 +1,7 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {HistogramService} from "../../services/histogram.service";
+import {BasicService} from "../../services/basic.service";
+import {EnhancementService} from "../../services/enhancement.service";
 
 @Component({
   selector: 'app-enhancement',
@@ -15,8 +17,10 @@ export class EnhancementComponent implements OnInit {
   @ViewChild('resultImageCanvas') resultImageCanvas!: ElementRef;
   context!: CanvasRenderingContext2D;
   canvas!: HTMLCanvasElement;
+  resultImageMatrix!: number[][];
+  @ViewChild('strength') strength!:ElementRef;
 
-  constructor() {
+  constructor(private basicService:BasicService,private enhancementService:EnhancementService) {
   }
 
   uploadImage(event: any): void {
@@ -47,15 +51,28 @@ export class EnhancementComponent implements OnInit {
     this.context = <CanvasRenderingContext2D>this.canvas.getContext('2d');
     this.context.drawImage(this.imageInput.nativeElement, 0, 0);
     this.imageData = this.context.getImageData(0, 0, this.canvas.width, this.canvas.height);
+    this.resultImageMatrix = this.basicService.getGreyMatrix(this.imageData.data, this.canvas.height, this.canvas.width);
+    this.displayMatrix();
   }
-
+  private displayMatrix(): void {
+    let data = this.imageData.data;
+    for (let i = 0; i < this.resultImageMatrix.length; i++) {
+      for (let j = 0; j < this.resultImageMatrix[0].length; j++) {
+        data[(((i * this.resultImageMatrix[i].length) + j) * 4)] = this.resultImageMatrix[i][j];
+        data[(((i * this.resultImageMatrix[i].length) + j) * 4) + 1] = this.resultImageMatrix[i][j];
+        data[(((i * this.resultImageMatrix[i].length) + j) * 4) + 2] = this.resultImageMatrix[i][j];
+      }
+    }
+    this.context.putImageData(this.imageData, 0, 0);
+    this.imageResult.nativeElement.src = this.canvas.toDataURL();
+  }
   reduceSaltAndPepperNoise():void{
 
   }
   createSaltAndPepperNoise():void{
-
+    this.enhancementService.createPepperAndSaltNoiseInMatrix(this.resultImageMatrix,Math.abs(this.strength.nativeElement.value));
+    this.displayMatrix();
   }
-
 
   save(): void {
     let canvas: HTMLCanvasElement = this.resultImageCanvas.nativeElement;
