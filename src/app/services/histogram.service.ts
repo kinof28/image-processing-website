@@ -16,7 +16,7 @@ export class HistogramService {
   }
   public getHistogramBarsLabels():number[]{
     let labels:number[]=[];
-    for (let i = 0; i < 255; i++) {
+    for (let i = 0; i < 256; i++) {
       labels.push(i);
     }
     return labels
