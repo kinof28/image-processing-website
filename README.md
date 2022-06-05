@@ -1,5 +1,5 @@
 # Image Processing Website
-# View Demo on : https://cutt.ly/image-processing
+# [View Demo](https://cutt.ly/image-processing)
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.0.2.
 
 this is an open source project created by me for fun anyone can copy and use for personal use
